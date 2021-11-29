@@ -27,19 +27,30 @@ namespace SzyfrPsychola
             DataContext = this.hint;
             this.button.Click += new RoutedEventHandler(Click);
         }
-
+        public string save()
+        {
+            return hint.accessCode;
+        }
         public void Click(object o, RoutedEventArgs e)
         {
 
             if (this.hint.Validate(this.inp.Text))
+            //if (true)
             {
-                this.textBlock.Text = hint.messeage;
-                this.textBlock.Foreground = hint.color;
+
+                int iterator = 0;
+                foreach( Rectangle r in this.answer.Children)
+                {
+
+                    if (hint.chanellVals[iterator] == hint.colorChanel)
+                        r.Fill = hint.color;
+
+                    iterator++;
+                }
             }
             else
             {
-                this.textBlock.Text = hint.output;
-                this.textBlock.Foreground = Brushes.DarkOrange;
+                MessageBox.Show("PODANY KOD JEST NIEPRAWIDŁOWY");
             }
         }
     }

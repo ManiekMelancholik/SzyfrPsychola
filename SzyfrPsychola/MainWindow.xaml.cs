@@ -55,16 +55,26 @@ namespace SzyfrPsychola
 
 
             }
-            if (UCPasswords.Count < 3)
+            if(UCPasswords.Count>=3)
+            for(int i =0; i<3; i++)
             {
-                for(int i = 3-UCPasswords.Count; i>0; i--)
-                {
-                    UCPasswords.Add("10101");
-                }
+                    if (UCPasswords[i] == "")
+                    {
+                        UCPasswords[i] = "---EMPTY---";
+                    }
             }
-            Hint hint1 = new Hint(UCPasswords[0], " [Q||X->V] \n [Q||V->X] \n [X||V->Q]", colorCtrl.GetColor(1));
-            Hint hint2 = new Hint(UCPasswords[1], " [Q||X->Q] \n [X||V->X] \n [V||Q->V]", colorCtrl.GetColor(2));
-            Hint hint3 = new Hint(UCPasswords[2], " [X||Q->Q] \n [Q||V->V] \n [X||X->X]", colorCtrl.GetColor(3));
+
+            List<int> vals = new List<int>();
+            for (int i = 3; i < UCPasswords.Count; i++)
+            {
+                vals.Add(int.Parse(UCPasswords[i]));
+            }
+            
+            
+
+            Hint hint1 = new Hint(UCPasswords[0], " [Q||X->V] \n [Q||V->X] \n [X||V->Q]", colorCtrl.GetColor(1),1,vals);
+            Hint hint2 = new Hint(UCPasswords[1], " [Q||X->Q] \n [X||V->X] \n [V||Q->V]", colorCtrl.GetColor(2),2,vals);
+            Hint hint3 = new Hint(UCPasswords[2], " [X||Q->Q] \n [Q||V->V] \n [X||X->X]", colorCtrl.GetColor(3),3,vals);
 
             UserControl1 UC1 = new UserControl1(ref hint1);
             UserControl1 UC2 = new UserControl1(ref hint2);
@@ -132,7 +142,7 @@ namespace SzyfrPsychola
         {
             if (!this.logedIn)
             {
-                if(this.login.Text == "100001011001")
+                if(this.login.Text == "ADMIN_RB")
                 {
                     if (this.password.Text == "2137")
                     {
@@ -166,11 +176,20 @@ namespace SzyfrPsychola
                     {
                         list.Add(uc.inp.Text);
                     }
+                    else
+                    {
+                        list.Add(uc.save());
+                    }
                 }
                 foreach(string s in list)
                 {
                     sw.WriteLine(s);
                 }
+                foreach (int i in cipher.GetKeyMatrix())
+                {
+                    sw.WriteLine(i);
+                }
+                
             }
             using (StreamWriter sw = new StreamWriter("TEXT.txt"))
             {

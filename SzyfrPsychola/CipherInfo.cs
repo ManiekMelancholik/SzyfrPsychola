@@ -71,6 +71,28 @@ namespace SzyfrPsychola
             return retVal;
         }
 
+        public List<int> GetKeyMatrix()
+        {
+            List<int> matrix = new List<int>();
+
+            foreach(List<Button> bList in buttons)
+            {
+                foreach (Button b in bList)
+                {
+                    matrix.Add((int)b.Tag);
+
+
+
+                }
+            }
+
+
+            return matrix;
+        }
+
+
+
+
         public void Show()
         {
             Cipher.GetInstance(ref buttons).Show();
