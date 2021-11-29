@@ -107,10 +107,7 @@ namespace SzyfrPsychola.Tests
                 {
                     if (counterKeys[i].chanel == ch)
                     {
-                        if (counterKeys[i].keys.Length > 1)
-                        {
-                            ret = counterKeys[i].keys[(this.random.Next())%(counterKeys[i].keys.Length)];
-                        }
+                        ret = counterKeys[i].keys[(this.random.Next())%(counterKeys[i].keys.Length)];
                     }
                 }
             }

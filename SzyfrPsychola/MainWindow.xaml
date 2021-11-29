@@ -47,8 +47,8 @@
 
                 </StackPanel>
             </Border>
-            <ScrollViewer x:Name="hidenInput"  Grid.Row="1" Grid.Column="2" Visibility="Hidden" d:Visibility="Visible" Height="250">
-                <TextBox x:Name="decipherInput"   Background="#FF252525" Foreground="#FF95F98C" />
+            <ScrollViewer x:Name="hidenInput"  Grid.Row="1" Grid.Column="2" Visibility="Hidden" d:Visibility="Visible" Height="250" VerticalScrollBarVisibility="Visible" Width="250">
+                <TextBox x:Name="decipherInput"   Background="#FF252525" Foreground="#FF95F98C" TextWrapping="Wrap"/>
             </ScrollViewer>
             <Button x:Name="decipher" Grid.Row="2" Grid.Column="2" Content="Rozszyfruj" Background="Black" Foreground="DarkOrange" FontSize="20" FontWeight="Bold" FontFamily="Courier New" Width="200"/>
 

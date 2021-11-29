@@ -36,19 +36,36 @@ namespace SzyfrPsychola
             this.colorCtrl = ColorControl.GetInstance(Brushes.Gray, Brushes.Red, Brushes.Cyan, Brushes.LimeGreen);
             this.hints = new List<Hint>();
             this.controls = new List<UserControl1>();
-            
+
             this.SetCipher.Click += new RoutedEventHandler(ShowCipher);
-            this.decipher.Click+= new RoutedEventHandler(Decipher);
+            this.decipher.Click += new RoutedEventHandler(Decipher);
             //this.ShowKeys.Click+= new RoutedEventHandler(GetKeys);
             this.LogiIn.Click += new RoutedEventHandler(LOGIN);
             this.LogOut.Click += new RoutedEventHandler(LOGOUT);
             this.Save.Click += new RoutedEventHandler(SAVE);
+            List<string> UCPasswords=new List<string>();
+            using (StreamReader sr = new StreamReader("appInfo.xml"))
+            {
+                string line=sr.ReadLine();
+                while (line != null)
+                {
+                    UCPasswords.Add(line);
+                    line = sr.ReadLine();
+                }
 
 
-            Hint hint1 =new Hint("10101", " [Q||X->V] \n [Q||V->X] \n [X||V->Q]", colorCtrl.GetColor(1));
-            Hint hint2 = new Hint("11002", " [Q||X->Q] \n [X||V->X] \n [V||Q->V]", colorCtrl.GetColor(2));
-            Hint hint3 = new Hint("23005", " [X||Q->Q] \n [Q||V->V] \n [X||X->X]", colorCtrl.GetColor(3));
-            
+            }
+            if (UCPasswords.Count < 3)
+            {
+                for(int i = 3-UCPasswords.Count; i>0; i--)
+                {
+                    UCPasswords.Add("10101");
+                }
+            }
+            Hint hint1 = new Hint(UCPasswords[0], " [Q||X->V] \n [Q||V->X] \n [X||V->Q]", colorCtrl.GetColor(1));
+            Hint hint2 = new Hint(UCPasswords[1], " [Q||X->Q] \n [X||V->X] \n [V||Q->V]", colorCtrl.GetColor(2));
+            Hint hint3 = new Hint(UCPasswords[2], " [X||Q->Q] \n [Q||V->V] \n [X||X->X]", colorCtrl.GetColor(3));
+
             UserControl1 UC1 = new UserControl1(ref hint1);
             UserControl1 UC2 = new UserControl1(ref hint2);
             UserControl1 UC3 = new UserControl1(ref hint3);
@@ -70,7 +87,7 @@ namespace SzyfrPsychola
             this.mainGrid.Children.Add(controls[1]);
             this.mainGrid.Children.Add(controls[2]);
             this.cipher = CipherInfo.GetInstance();
-            
+
         }
         public void ShowCipher(object o, RoutedEventArgs e)
         {
@@ -92,7 +109,7 @@ namespace SzyfrPsychola
                 {
                     FindKeys fk = new FindKeys();
                     FindCounterKeys CK = fk.FIndAndDIsplay(false);
-
+                    //inputBox.Text = CK.CipherInfo(decipherInput.Text);
                     outputBox.Text = CK.CipherInfo(decipherInput.Text);
                     
                 }
@@ -101,16 +118,15 @@ namespace SzyfrPsychola
             {
                 if (inputBox.Text != "")
                 {
-
                     outputBox.Text = LogicModule.GetInstance().TranslateText(inputBox.Text);
                 }
             }
             
         }
-        public void GetKeys(object o, RoutedEventArgs e)
+        public void GetKeys(bool b=false)
         {
             FindKeys fk = new FindKeys();
-            fk.FIndAndDIsplay(false);
+            fk.FIndAndDIsplay(b);
         }
         public void LOGIN(object o, RoutedEventArgs e)
         {
@@ -123,6 +139,7 @@ namespace SzyfrPsychola
                         this.logedIn = true;
                         this.Save.Visibility = Visibility.Visible;
                         this.hidenInput.Visibility = Visibility.Visible;
+                       //this.GetKeys(true);
                     }
                 }
             }
